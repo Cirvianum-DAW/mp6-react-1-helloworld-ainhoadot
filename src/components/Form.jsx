@@ -1,58 +1,85 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-function Form(props) {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    
-    const [welcomeMessage, setWelcomeMessage] = useState("");
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setWelcomeMessage(`Hola ${firstName} ${lastName}!`);
-        props.setPlacesDisponibles(props.placesActuals - 1);
-    };
+const Form = (props) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [welcomeMessage, setWelcomeMessage] = useState('');
 
-    return (
-        <div className="flex justify-center items-center h-screen">
-            <form className="bg-white w-1/2 shadow-md rounded-lg px-8 pt-6 pb-8" onSubmit={handleSubmit}>
-                <h1 className="text-3xl font-bold text-center mb-8">
-                    Detalls d'estudiant: {props.tipusEstudiantSelect}
-                </h1>
-                <div className="mb-4">
-                    <label className="text-gray-700 block mb-2" htmlFor="fname">
-                        Nom:
-                    </label>
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="fname"
-                        type="text"
-                        name="fname"
-                        onBlur={(e) => setFirstName(e.target.value)}
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="text-gray-700 block mb-2" htmlFor="lname">
-                        Cognom:
-                    </label>
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="lname"
-                        type="text"
-                        name="lname"
-                        onBlur={(e) => setLastName(e.target.value)}
-                    />
-                </div>
-                <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="submit"
-                >
-                    Submit
-                </button>
-                <label className="block w-full text-4xl mb-4 p-2" id="studentMsg">
-                    {welcomeMessage}
-                </label>
-            </form>
-        </div>
+  const handleClick = (event) => {
+    handleInputReset('', '', '');
+    setWelcomeMessage(
+      `${firstName} ${lastName} enregistrat. Email enviat a ${email}`,
     );
-}
+    props.setPlacesDisponibles(props.placesActuals - 1);
+    event.preventDefault(); // Necessari per evitar que el form es refresqui
+  };
+
+  //change of input value set method
+  const handleInputChange = (setInput, event) => {
+    setInput(event.target.value);
+  };
+
+  //set input fields
+  const handleInputReset = (firstName, lastName, email) => {
+    setFirstName(firstName);
+    setLastName(lastName);
+    setEmail(email);
+  };
+
+  return (
+    <div className="flex h-screen justify-center">
+      <form className="enrolForm w-3/4" name="enrolForm">
+        <ul className="ulEnrol">
+          <li className="mb-2">
+            <input
+              className="border-1 mb-4 w-full rounded-lg border-dotted border-black bg-gray-200 p-2"
+              type="text"
+              name="firstname"
+              placeholder="Nom"
+              value={firstName}
+              onChange={(event) => handleInputChange(setFirstName, event)}
+            />
+          </li>
+          <li>
+            <input
+              className="border-1 mb-4 w-full rounded-lg border-dotted border-black bg-gray-200 p-2"
+              type="text"
+              name="lastname"
+              placeholder="Cognom"
+              value={lastName}
+              onChange={(event) => handleInputChange(setLastName, event)}
+            />
+          </li>
+          <li>
+            <input
+              className="border-1 mb-4 w-full rounded-lg border-dotted border-black bg-gray-200 p-2"
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={email}
+              onChange={(event) => handleInputChange(setEmail, event)}
+            />
+          </li>
+          <li>
+            <input
+              className="mb-4 w-full rounded bg-blue-500 p-2 px-4 py-2 font-bold text-white hover:bg-blue-700"
+              type="submit"
+              name="Enrol"
+              alt="Enrol"
+              value="Inscripció"
+              onClick={handleClick}
+            />
+          </li>
+          <li>
+            <label className="mb-4 block w-full p-2 text-2xl" id="studentMsg">
+              {welcomeMessage}
+            </label>
+          </li>
+        </ul>
+      </form>
+    </div>
+  );
+};
 
 export default Form;
