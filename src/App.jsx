@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Form from './components/Form';
+import StudentList from './components/studentList';
 
 const App = () => {
   const [tipusEstudiant, setTipusEstudiant] = useState('No Graduat');
   const [ngPlaces, setNGPlaces] = useState(60);
   const [gPlaces, setGPlaces] = useState(40);
+  const [detallsEstudiant, setDetallEstudiants] = useState([]);
 
   const handleChange = (e) => {
     setTipusEstudiant(e.target.value);
@@ -60,6 +62,11 @@ const App = () => {
         tipusEstudiantSelect={tipusEstudiant}
         setPlacesDisponibles={setPlacesDisponibles}
         placesActuals={tipusEstudiant === 'Graduat' ? gPlaces : ngPlaces}
+        setDetallsEstudiant={setDetallEstudiants}
+      />
+      <StudentList
+        detallsEstudiant={detallsEstudiant}
+        setDetallsEstudiant={setDetallEstudiants}
       />
     </div>
   );
